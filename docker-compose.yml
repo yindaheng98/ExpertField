@@ -1,12 +1,5 @@
 version: "3"
 services: 
-  web:
-    build: ./web
-    links:
-      - redis
-    volumes: 
-      - "C:/ProgramData/MySQL/MySQL Server 8.0/Data:/var/lib/mysql"
-
   center:
     build: ./center
     ports: 
@@ -14,6 +7,15 @@ services:
     links:
       - web
       - redis
+
+  web:
+    build: ./web
+    ports:
+      - "81:80"
+    links:
+      - redis
+    volumes: 
+      - "./Data:/var/lib/mysql"
 
   redis:
     image: redis

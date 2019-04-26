@@ -1,6 +1,6 @@
 FROM yindaheng98/multibird-cms
 
-ENV MYSQL_ADMIN_PASS 19980230
+ENV MYSQL_ADMIN_PASS administrator
 
 ADD app/ /app
 ADD webapps/ /jettybase/webapps
