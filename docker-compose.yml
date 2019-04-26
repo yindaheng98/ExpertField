@@ -1,19 +1,30 @@
 version: "3"
 services: 
-  web:
-    build: ./web
-    links:
-      - redis
-    volumes: 
-      - "C:/ProgramData/MySQL/MySQL Server 8.0/Data:/var/lib/mysql"
-
-  center:
-    build: ./center
+  node:
+    build: ./node
     ports: 
       - "80:3000"
     links:
-      - web
+      - php
+      - mysql
       - redis
+    restart_policy:
+        condition: on-failure
+
+  jetty:
+    build: ./jetty
+    links:
+      - mysql
+      - redis
+
+  php:
+    build: ./redis-php
+    links:
+      - mysql
+      - redis
+
+  mysql:
+    build: ./mysql
 
   redis:
     image: redis
