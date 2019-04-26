@@ -1,12 +1,12 @@
 use ExperimentData;
 insert into 试验(创建时间,试验名称,试验数据格式,试验描述)values
-(now()-1000,"1秒前的某个实验",'{
+(date_sub(now(),interval 2 second),"1秒前的某个实验",'{
 "天气": ["阴","晴","雨","雪"],
 "湿度": "double",
 "日照情况": "int",
 "谁写的": "string"
 }',"我是1秒前的某个实验的实验描述"),
-(now()-2000,"1秒前的某个实验",'{
+(date_sub(now(),interval 1 second),"1秒前的某个实验",'{
 "天气": ["阴","晴","雨","雪"],
 "湿度": "double",
 "日照情况": "int",
