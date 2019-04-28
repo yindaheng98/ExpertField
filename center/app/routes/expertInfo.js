@@ -7,7 +7,13 @@ let con=null;
 router.get('/:id', function (req, res, next) {
     if(con==null)con=new Connection();//这么写是因为这个脚本初始化的时候隔壁mysql容器还没启动好
     let id = req.params.id;
-    let SQL = 'SELECT ID as `id`, 创建时间 as `time`, 试验名称 as `name`,试验数据格式 as `format`, 试验描述 as `description`, 已结束 as `finished` FROM 试验 WHERE ID=? LIMIT 1';
+    let SQL = "SELECT\n" +
+        "  e_f.试验田ID AS 'field_id',\n" +
+        "  e_f.试验ID  AS 'exp_id',\n" +
+        "  e.*\n" +
+        "FROM 试验_试验田 e_f\n" +
+        "  RIGHT JOIN 试验 e ON e_f.试验ID = e.ID\n" +
+        "WHERE e_f.试验田ID = ?;"
     con.mysql.query(SQL, [id], function (error, results, fields) {
         if (error) throw error;
         if(results.length<1){
