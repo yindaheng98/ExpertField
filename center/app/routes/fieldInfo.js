@@ -14,7 +14,7 @@ router.get('/:id', function (req, res, next) {
             res.send(JSON.stringify({state:'error',info:'no info'}));
             return;
         }
-        results[0].format=JSON.parse(results[0].format);
+        // results[0].format=JSON.parse(results[0].format);
         res.send(JSON.stringify(results[0]));
     });
 });
