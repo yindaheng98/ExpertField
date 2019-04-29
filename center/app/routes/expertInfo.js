@@ -1,16 +1,17 @@
 let express = require('express');
 let router = express.Router();
-let Connection = require('../controllers/connections');
-let con=null;
+// let Connection = require('../controllers/connections');
+// let con=null;
+const con = require('../controllers/connections');
 
 /* GET users listing. */
 router.get('/:id', function (req, res, next) {
-    if(con==null)con=new Connection();//这么写是因为这个脚本初始化的时候隔壁mysql容器还没启动好
+    // if(con==null)con=new Connection();//这么写是因为这个脚本初始化的时候隔壁mysql容器还没启动好
     let id = req.params.id;
     let SQL = "SELECT\n" +
         "  e_f.试验田ID AS 'field_id',\n" +
         "  e_f.试验ID  AS 'exp_id',\n" +
-        "  e.ID AS 'id',\n" +
+        "  e_f.ID AS 'id',\n" +
         "  e.试验名称 AS 'name',\n" +
         "  e.创建时间 AS 'time',\n" +
         "  e.试验数据格式 AS 'format',\n" +
@@ -34,8 +35,8 @@ router.get('/:id', function (req, res, next) {
     });
 });
 
-router.use('/', function (req, res, next) {
-    res.send(JSON.stringify({state:'error',info:"no input"}));
-});
+// router.use('/', function (req, res, next) {
+//     res.send(JSON.stringify({state:'error',info:"no input"}));
+// });
 
 module.exports = router;

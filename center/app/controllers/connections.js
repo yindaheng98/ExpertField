@@ -13,4 +13,4 @@ function Connection() {
     // this.redis = redis.createClient(6379,'redis');
 }
 
-module.exports = Connection;
+module.exports = new Connection();
