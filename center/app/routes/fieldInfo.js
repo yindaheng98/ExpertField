@@ -11,16 +11,16 @@ router.get('/:id', function (req, res, next) {
     con.mysql.query(SQL, [id], function (error, results, fields) {
         if (error) throw error;
         if(results.length<1){
-            res.json(JSON.stringify({state:'error',info:'no info'}));
+            res.json({state:'error',info:'no info'});
             return;
         }
-        // results[0].format=JSON.parse(results[0].format);
-        res.json(JSON.stringify(results[0]));
+        results[0].format=JSON.parse(results[0].format);
+        res.json(results[0]);
     });
 });
 
 router.use('/', function (req, res, next) {
-    res.json(JSON.stringify({state:'error',info:"no input"}));
+    res.json({state:'error',info:"no input"});
 });
 
 module.exports = router;
