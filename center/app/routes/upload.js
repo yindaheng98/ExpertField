@@ -6,7 +6,14 @@ const con     = require("../controllers/connections");
 const app = express.Router();
 
 function toSqlDateFormat(javaDateFormatStr) {
-    return new Date(javaDateFormatStr).toISOString().slice(0, 19).replace('T', ' ');
+    let dt = new Date(javaDateFormatStr);
+    let current_date = dt.getDate();
+    let current_month = dt.getMonth() + 1;
+    let current_year = dt.getFullYear();
+    let current_hrs = dt.getHours();
+    let current_mins = dt.getMinutes();
+    let current_secs = dt.getSeconds();
+    return current_year + "-" + current_month + "-" + current_date + " " + current_hrs + ":" + current_mins + ":" + current_secs;
 }
 
 const storage = multer.diskStorage({
@@ -27,7 +34,10 @@ const upload = multer({storage: storage}).array('voices', 5);   // 二进制字�
 
 const SQL_CMD = "INSERT INTO 试验数据 (试验_试验田ID, 录入时间, 数据, 语音) VALUES (?,?,?,?);";
 function execute_sql(id, time, data, voices) {
+    console.log("wtmd" + time);
     time = toSqlDateFormat(time);
+    console.log(time);
+
     voices = JSON.stringify(voices);
     return new Promise(((resolve, reject) => {
         let query = con.mysql.query(SQL_CMD, [id, time, data, voices], function (err, results) {
@@ -44,12 +54,12 @@ function execute_sql(id, time, data, voices) {
 app.post('/', function (req, res, next) {
     upload(req, res, err => {
         if (!err) {
-            execute_sql(req.body.exp_field_id, req.body.time, req.body.data, req.new_filename).then(
-                ()=>{
-                    res.json({msg:'ok'});
+            execute_sql(req.body.exp_field_id, req.body.time, req.body.data, req.new_filename || []).then(
+                () => {
+                    res.json({msg: 'ok'});
                 },
-                ()=>{
-                    res.json({msg:'不ok'});
+                () => {
+                    res.json({msg: '不ok'});
                 }
             );
         }else{
