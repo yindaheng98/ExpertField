@@ -37,6 +37,18 @@ public class UpdateTool {
         updateExperimentStatement.execute();
     }
 
+    private PreparedStatement finishExperimentStatement;
+
+    public void finishExperiment(int ID,int finish) throws SQLException {
+        if(finishExperimentStatement==null)
+            finishExperimentStatement=dataConnection.sqlConnection.prepareStatement(
+                    "UPDATE 试验 SET 已结束=? WHERE ID=?"
+            );
+        finishExperimentStatement.setInt(1,finish);
+        finishExperimentStatement.setInt(2,ID);
+        finishExperimentStatement.execute();
+    }
+
     private PreparedStatement deleteExpertFieldStatement;
 
     public void deleteExpertField(int ID) throws SQLException {

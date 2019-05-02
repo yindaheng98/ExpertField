@@ -39,7 +39,8 @@ public class UpdateExperiment extends HttpServlet {
             updateTool.updateExperiment(ID, name, description, format);
             response.getWriter().print("ok");
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("一次失败的UpdateExperiment");
             response.getWriter().print("error");
         }
     }

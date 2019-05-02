@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 public class DataConnection {
     private static final String REDIS_URL = "redis://redis:6379/";
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/ExperimentData?useUnicode=true&characterEncoding=utf8";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/ExperimentData?useUnicode=true&characterEncoding=utf8&useSSL=false";
     private static final String USER = "ExperimentData";
     private static final String PASS = "ExperimentData";
 

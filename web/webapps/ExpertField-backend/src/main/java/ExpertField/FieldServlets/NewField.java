@@ -37,7 +37,8 @@ public class NewField extends HttpServlet {
             int ID = createTool.createField(name, description);
             response.getWriter().print("ok:" + ID);
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("一次失败的NewField");
             response.getWriter().print("error");
         }
     }

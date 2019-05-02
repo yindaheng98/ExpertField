@@ -38,7 +38,8 @@ public class UpdateField extends HttpServlet {
             updateTool.updateField(ID, name, description);
             response.getWriter().print("ok");
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("一次失败的UpdateField");
             response.getWriter().print("error");
         }
     }
