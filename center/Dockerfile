@@ -1,4 +1,4 @@
-FROM node
+FROM node:8-alphine
 
 ADD app/ /home/node/app
 EXPOSE 3000

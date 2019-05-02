@@ -12,10 +12,12 @@ services:
     build: ./web
     ports:
       - "81:80"
+      - "8080:8080"
     links:
       - redis
     volumes: 
       - "./Data:/var/lib/mysql"
+      - "./web/app:/app"
 
   redis:
     image: redis
