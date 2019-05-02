@@ -1,6 +1,5 @@
 package ExpertField.util;
 
-import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -24,7 +23,7 @@ public class QueryTool {
      */
     private JSONObject getExperimentInfo(ResultSet rs) throws SQLException {
         JSONObject info = new JSONObject();
-        info.element("创建时间", rs.getTimestamp("创建时间"));
+        info.element("创建时间", rs.getString("创建时间"));
         info.element("试验名称", rs.getString("试验名称"));
         info.element("试验数据格式", JSONObject.fromObject(rs.getString("试验数据格式")));
         info.element("试验描述", rs.getString("试验描述"));
@@ -60,19 +59,29 @@ public class QueryTool {
 
         if (experimentDataStatement == null)
             experimentDataStatement = dataConnection.sqlConnection.prepareStatement(
-                    "SELECT 试验田ID,录入时间,数据,语音 FROM (SELECT ID,试验田ID FROM 试验_试验田 WHERE 试验ID=?) AS T INNER JOIN 试验数据 ON T.ID=试验数据.试验_试验田ID ORDER BY 录入时间 DESC"
+                    "SELECT T.ID,试验田ID,录入时间,数据,语音 FROM (SELECT ID,试验田ID FROM 试验_试验田 WHERE 试验ID=?) AS T INNER JOIN 试验数据 ON T.ID=试验数据.试验_试验田ID GROUP BY 试验田ID ORDER BY 录入时间 DESC"
             );
         experimentDataStatement.setInt(1, ID);
         ResultSet experimentData = experimentDataStatement.executeQuery();//再获取试验数据
-        JSONArray data = new JSONArray();
+
+        JSONObject data = new JSONObject();
+        JSONArray fieldData = new JSONArray();//按试验田对试验数据进行分类
+        int lastFieldID = 0;
         while (experimentData.next()) {
+            int fieldID = experimentData.getInt("试验田ID");
+            if (fieldID != lastFieldID && !fieldData.isEmpty()) {
+                data.element("" + lastFieldID, fieldData);
+                fieldData = new JSONArray();
+                lastFieldID = fieldID;
+            }
             JSONObject d = new JSONObject();
-            d.element("试验田ID", experimentData.getInt("试验田ID"));
-            d.element("录入时间", experimentData.getTimestamp("录入时间"));
+            d.element("ID", experimentData.getInt("ID"));
+            d.element("录入时间", experimentData.getString("录入时间"));
             d.element("数据", JSONObject.fromObject(experimentData.getString("数据")));
             d.element("语音", JSONArray.fromObject(experimentData.getString("语音")));
-            data.element(d);
+            fieldData.element(d);
         }
+        data.element("" + lastFieldID, fieldData);
         details.element("试验数据", data);
         return details;
     }
@@ -126,7 +135,7 @@ public class QueryTool {
         while (field.next()) {
             JSONObject data = new JSONObject();
             data.element("ID", field.getInt("ID"));
-            data.element("创建时间", field.getTimestamp("创建时间"));
+            data.element("创建时间", field.getString("创建时间"));
             data.element("试验田名称", field.getString("试验田名称"));
             data.element("试验田描述", field.getString("试验田描述"));
             fields.element(data);

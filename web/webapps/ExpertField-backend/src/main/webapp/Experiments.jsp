@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: yinda
   Date: 2019/5/2
-  Time: 19:16
+  Time: 21:48
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -12,7 +12,7 @@
     String data = "error";
     try {
         QueryTool queryTool = new QueryTool();
-        data = queryTool.getFields().toString();
+        data = queryTool.getExperiments().toString();
     } catch (SQLException | ClassNotFoundException ignored) {
     }
 %>
@@ -22,27 +22,23 @@
     <script src="https://vuejs.org/js/vue.js"></script>
 </head>
 <body>
-<form action="Field/new">
-    <label>试验田名称</label>
+<form action="Experiment/new">
+    <label>试验名称</label>
     <input type="text" placeholder="名称" name="name">
-    <label>试验田描述</label>
+    <label>试验描述</label>
     <textarea placeholder="描述" name="description"></textarea>
     <input type="submit" value="新建">
 </form>
 <table id="fields">
     <tr>
-        <th>试验田名称</th>
+        <th>试验名称</th>
         <th>创建时间</th>
-        <th>试验田描述</th>
-        <th>相关试验</th>
-        <th>二维码</th>
+        <th>试验描述</th>
     </tr>
-    <tr v-for="field in fields">
-        <td>{{ field.试验田名称 }}</td>
+    <tr v-for="field in fields" style="cursor: pointer" id="">
+        <td>{{ field.试验名称 }}</td>
         <td>{{ field.创建时间 }}</td>
-        <td style="cursor:pointer">{{ field.试验田描述 }}</td>
-        <td></td>
-        <td><img src="img/erweima.svg" style="cursor:pointer" alt="点我看二维码"></td>
+        <td>{{ field.试验描述 }}</td>
     </tr>
 </table>
 
@@ -53,6 +49,11 @@
         el: "#fields",
         data: {
             fields: data
+        },
+        methods:{
+            viewDetails:function (event) {
+
+            }
         }
     };
     let vue = new Vue(vdata)

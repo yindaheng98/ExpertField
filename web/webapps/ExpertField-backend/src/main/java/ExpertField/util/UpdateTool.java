@@ -59,4 +59,27 @@ public class UpdateTool {
         deleteExpertFieldStatement.setInt(1, ID);
         deleteExpertFieldStatement.execute();
     }
+
+    private PreparedStatement updateDataStatement;
+
+    public void updateData(int ID, String data) throws SQLException {
+        if(updateDataStatement==null)
+            updateDataStatement=dataConnection.sqlConnection.prepareStatement(
+                    "UPDATE 试验数据 SET 数据=? WHERE ID=?"
+            );
+        updateDataStatement.setString(1,data);
+        updateDataStatement.setInt(2,ID);
+        updateDataStatement.execute();
+    }
+
+    private PreparedStatement deleteDataStatement;
+    public void deleteData(int ID) throws SQLException {
+        if(deleteDataStatement==null){
+            deleteDataStatement=dataConnection.sqlConnection.prepareStatement(
+                    "DELETE FROM 试验数据 WHERE ID=?"
+            );
+            deleteDataStatement.setInt(1,ID);
+            deleteDataStatement.execute();
+        }
+    }
 }
