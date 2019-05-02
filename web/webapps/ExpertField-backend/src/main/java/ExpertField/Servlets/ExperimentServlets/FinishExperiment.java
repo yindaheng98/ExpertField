@@ -1,6 +1,6 @@
-package ExpertField.ExperimentServlets;
+package ExpertField.Servlets.ExperimentServlets;
 
-import ExpertField.util.CreateTool;
+import ExpertField.util.UpdateTool;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -10,17 +10,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "NewExperiment", urlPatterns = {"Experiment/new"})
-public class NewExperiment extends HttpServlet {
+@WebServlet(name = "FinishExperiment", urlPatterns = {"Experiment/finish"})
+public class FinishExperiment extends HttpServlet {
 
-    private CreateTool createTool;
+    private UpdateTool updateTool;
 
     public void init() throws ServletException {
         try {
-            createTool = new CreateTool();
+            updateTool = new UpdateTool();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            throw new ServletException("新建试验的Servlet 'NewExperiment'初始化失败");
+            throw new ServletException("完成试验的Servlet 'FinishExperiment'初始化失败");
         }
     }
 
@@ -31,15 +31,14 @@ public class NewExperiment extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
-        String format = request.getParameter("format");
+        int ID = Integer.parseInt(request.getParameter("ID"));
+        int finish=Integer.parseInt(request.getParameter("finish"));
         try {
-            int ID = createTool.createExperiment(name, description, format);
-            response.getWriter().print("ok:" + ID);
+            updateTool.finishExperiment(ID,finish);
+            response.getWriter().print("ok");
         } catch (SQLException e) {
             //e.printStackTrace();
-            System.out.println("一次失败的NewExperiment");
+            System.out.println("一次失败的FinishExperiment");
             response.getWriter().print("error");
         }
     }

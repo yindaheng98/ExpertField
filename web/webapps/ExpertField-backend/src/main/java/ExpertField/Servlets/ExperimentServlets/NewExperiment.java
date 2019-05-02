@@ -1,4 +1,4 @@
-package ExpertField.FieldServlets;
+package ExpertField.Servlets.ExperimentServlets;
 
 import ExpertField.util.CreateTool;
 
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "NewField", urlPatterns = {"Field/new"})
-public class NewField extends HttpServlet {
+@WebServlet(name = "NewExperiment", urlPatterns = {"Experiment/new"})
+public class NewExperiment extends HttpServlet {
 
     private CreateTool createTool;
 
@@ -20,7 +20,7 @@ public class NewField extends HttpServlet {
             createTool = new CreateTool();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            throw new ServletException("新建试验田的Servlet 'NewField'初始化失败");
+            throw new ServletException("新建试验的Servlet 'NewExperiment'初始化失败");
         }
     }
 
@@ -33,12 +33,13 @@ public class NewField extends HttpServlet {
             throws ServletException, IOException {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
+        String format = request.getParameter("format");
         try {
-            int ID = createTool.createField(name, description);
+            int ID = createTool.createExperiment(name, description, format);
             response.getWriter().print("ok:" + ID);
         } catch (SQLException e) {
             //e.printStackTrace();
-            System.out.println("一次失败的NewField");
+            System.out.println("一次失败的NewExperiment");
             response.getWriter().print("error");
         }
     }

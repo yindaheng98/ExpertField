@@ -1,4 +1,4 @@
-package ExpertField.FieldServlets;
+package ExpertField.Servlets.ExpertFieldServlets;
 
 import ExpertField.util.UpdateTool;
 
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "UpdateField", urlPatterns = {"Field/update"})
-public class UpdateField extends HttpServlet {
+@WebServlet(name = "DeleteExpertField", urlPatterns = {"ExpertField/del"})
+public class DeleteExpertField extends HttpServlet {
 
     private UpdateTool updateTool;
 
@@ -20,7 +20,7 @@ public class UpdateField extends HttpServlet {
             updateTool = new UpdateTool();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            throw new ServletException("更新试验田的Servlet 'UpdateField'初始化失败");
+            throw new ServletException("删除试验-试验田关系的Servlet 'DeleteExpertField'初始化失败");
         }
     }
 
@@ -32,14 +32,12 @@ public class UpdateField extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int ID = Integer.parseInt(request.getParameter("ID"));
-        String name = request.getParameter("name");
-        String description = request.getParameter("description");
         try {
-            updateTool.updateField(ID, name, description);
+            updateTool.deleteExpertField(ID);
             response.getWriter().print("ok");
         } catch (SQLException e) {
             //e.printStackTrace();
-            System.out.println("一次失败的UpdateField");
+            System.out.println("一次失败的DeleteExpertField");
             response.getWriter().print("error");
         }
     }

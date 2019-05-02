@@ -1,4 +1,4 @@
-package ExpertField.ExperimentServlets;
+package ExpertField.Servlets.FieldServlets;
 
 import ExpertField.util.UpdateTool;
 
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "FinishExperiment", urlPatterns = {"Experiment/finish"})
-public class FinishExperiment extends HttpServlet {
+@WebServlet(name = "UpdateField", urlPatterns = {"Field/update"})
+public class UpdateField extends HttpServlet {
 
     private UpdateTool updateTool;
 
@@ -20,7 +20,7 @@ public class FinishExperiment extends HttpServlet {
             updateTool = new UpdateTool();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            throw new ServletException("完成试验的Servlet 'FinishExperiment'初始化失败");
+            throw new ServletException("更新试验田的Servlet 'UpdateField'初始化失败");
         }
     }
 
@@ -32,13 +32,14 @@ public class FinishExperiment extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int ID = Integer.parseInt(request.getParameter("ID"));
-        int finish=Integer.parseInt(request.getParameter("finish"));
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
         try {
-            updateTool.finishExperiment(ID,finish);
+            updateTool.updateField(ID, name, description);
             response.getWriter().print("ok");
         } catch (SQLException e) {
             //e.printStackTrace();
-            System.out.println("一次失败的FinishExperiment");
+            System.out.println("一次失败的UpdateField");
             response.getWriter().print("error");
         }
     }

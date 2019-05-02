@@ -1,6 +1,6 @@
-package ExpertField.ExperimentServlets;
+package ExpertField.Servlets.FieldServlets;
 
-import ExpertField.util.UpdateTool;
+import ExpertField.util.CreateTool;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -10,17 +10,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "UpdateExperiment", urlPatterns = {"Experiment/update"})
-public class UpdateExperiment extends HttpServlet {
+@WebServlet(name = "NewField", urlPatterns = {"Field/new"})
+public class NewField extends HttpServlet {
 
-    private UpdateTool updateTool;
+    private CreateTool createTool;
 
     public void init() throws ServletException {
         try {
-            updateTool = new UpdateTool();
+            createTool = new CreateTool();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            throw new ServletException("更新试验的Servlet 'UpdateExperiment'初始化失败");
+            throw new ServletException("新建试验田的Servlet 'NewField'初始化失败");
         }
     }
 
@@ -31,16 +31,14 @@ public class UpdateExperiment extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int ID = Integer.parseInt(request.getParameter("ID"));
         String name = request.getParameter("name");
         String description = request.getParameter("description");
-        String format = request.getParameter("format");
         try {
-            updateTool.updateExperiment(ID, name, description, format);
-            response.getWriter().print("ok");
+            int ID = createTool.createField(name, description);
+            response.getWriter().print("ok:" + ID);
         } catch (SQLException e) {
             //e.printStackTrace();
-            System.out.println("一次失败的UpdateExperiment");
+            System.out.println("一次失败的NewField");
             response.getWriter().print("error");
         }
     }
