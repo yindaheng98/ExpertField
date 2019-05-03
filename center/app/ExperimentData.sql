@@ -33,8 +33,8 @@ create table 试验数据
 ID int primary key auto_increment,
 试验_试验田ID int not null,
 录入时间 datetime not null,
-数据 json,
-语音 json,
+数据 json default "{}",
+语音 json default "[]",
 foreign key (试验_试验田ID) references 试验_试验田(ID)
 );
 drop user if exists ExperimentData@localhost;

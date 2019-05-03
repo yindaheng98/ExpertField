@@ -26,7 +26,8 @@ public class QueryTool {
         info.element("创建时间", rs.getString("创建时间"));
         info.element("试验名称", rs.getString("试验名称"));
         info.element("试验数据格式", JSONObject.fromObject(rs.getString("试验数据格式")));
-        info.element("试验描述", rs.getString("试验描述"));
+        String description=rs.getString("试验描述");
+        info.element("试验描述", description!=null?description:"");
         info.element("已结束", rs.getBoolean("已结束"));
         return info;
     }
@@ -97,8 +98,10 @@ public class QueryTool {
                 }
                 JSONObject d = new JSONObject();
                 d.element("录入时间", experimentData.getString("录入时间"));
-                d.element("数据", JSONObject.fromObject(experimentData.getString("数据")));
-                d.element("语音", JSONArray.fromObject(experimentData.getString("语音")));
+                String jsonData=experimentData.getString("数据");
+                d.element("数据", jsonData!=null?JSONObject.fromObject(jsonData):new JSONObject());
+                String soundData=experimentData.getString("语音");
+                d.element("语音", soundData!=null?JSONArray.fromObject(soundData):new JSONArray());
                 fieldData.element(experimentData.getString("ID"), d);
             } while (experimentData.next());
             JSONObject fieldInfo = getFieldInfo(lastFieldID);//这时就汇总试验田信息
