@@ -31,6 +31,25 @@ public class QueryTool {
         return info;
     }
 
+
+    private PreparedStatement fieldInfoStatement = null;
+
+    private JSONObject getFieldInfo(int ID) throws SQLException {
+        if (fieldInfoStatement == null)
+            fieldInfoStatement = dataConnection.sqlConnection.prepareStatement(
+                    "SELECT 创建时间, 试验田名称, 试验田描述 FROM 试验田 WHERE ID=? LIMIT 1"
+            );
+        fieldInfoStatement.setInt(1, ID);
+        ResultSet rs = fieldInfoStatement.executeQuery();
+        JSONObject fieldInfo = new JSONObject();
+        if (rs.next()) {
+            fieldInfo.element("创建时间", rs.getString("创建时间"));
+            fieldInfo.element("试验田名称", rs.getString("试验田名称"));
+            fieldInfo.element("试验田描述", rs.getString("试验田描述"));
+        }
+        return fieldInfo;
+    }
+
     /**
      * 获取某个试验的详细情况getExperimentDetails要用的两个PreparedStatement
      */
@@ -59,30 +78,34 @@ public class QueryTool {
 
         if (experimentDataStatement == null)
             experimentDataStatement = dataConnection.sqlConnection.prepareStatement(
-                    "SELECT T.ID,试验田ID,录入时间,数据,语音 FROM (SELECT ID,试验田ID FROM 试验_试验田 WHERE 试验ID=?) AS T INNER JOIN 试验数据 ON T.ID=试验数据.试验_试验田ID GROUP BY 试验田ID ORDER BY 录入时间 DESC"
+                    "SELECT 试验数据.ID,试验田ID,录入时间,数据,语音 FROM (SELECT ID,试验田ID FROM 试验_试验田 WHERE 试验ID=?) AS T INNER JOIN 试验数据 ON T.ID=试验数据.试验_试验田ID GROUP BY 试验田ID ORDER BY 录入时间 DESC"
             );
         experimentDataStatement.setInt(1, ID);
         ResultSet experimentData = experimentDataStatement.executeQuery();//再获取试验数据
-
-        JSONObject data = new JSONObject();
-        JSONArray fieldData = new JSONArray();//按试验田对试验数据进行分类
-        int lastFieldID = 0;
-        while (experimentData.next()) {
-            int fieldID = experimentData.getInt("试验田ID");
-            if (fieldID != lastFieldID && !fieldData.isEmpty()) {
-                data.element("" + lastFieldID, fieldData);
-                fieldData = new JSONArray();
-                lastFieldID = fieldID;
-            }
-            JSONObject d = new JSONObject();
-            d.element("ID", experimentData.getInt("ID"));
-            d.element("录入时间", experimentData.getString("录入时间"));
-            d.element("数据", JSONObject.fromObject(experimentData.getString("数据")));
-            d.element("语音", JSONArray.fromObject(experimentData.getString("语音")));
-            fieldData.element(d);
+        JSONObject fields = new JSONObject();
+        if (experimentData.next()) {
+            JSONObject fieldData = new JSONObject();//按试验田对试验数据进行分类
+            int lastFieldID = experimentData.getInt("试验田ID");//第一个
+            do {//循环开始
+                int fieldID = experimentData.getInt("试验田ID");
+                if (fieldID != lastFieldID) {//如果是不一样的试验田，说明已经有一个试验田数据收完了
+                    JSONObject fieldInfo = getFieldInfo(lastFieldID);//这时就汇总试验田信息
+                    fieldInfo.element("试验田数据", fieldData);//和试验田数据
+                    fields.element("" + lastFieldID, fieldInfo);//放入总数据集中
+                    fieldData = new JSONObject();//然后收集下一个田的数据
+                    lastFieldID = fieldID;
+                }
+                JSONObject d = new JSONObject();
+                d.element("录入时间", experimentData.getString("录入时间"));
+                d.element("数据", JSONObject.fromObject(experimentData.getString("数据")));
+                d.element("语音", JSONArray.fromObject(experimentData.getString("语音")));
+                fieldData.element(experimentData.getString("ID"), d);
+            } while (experimentData.next());
+            JSONObject fieldInfo = getFieldInfo(lastFieldID);//这时就汇总试验田信息
+            fieldInfo.element("试验田数据", fieldData);//和试验田数据
+            fields.element("" + lastFieldID, fieldInfo);//放入总数据集中
         }
-        data.element("" + lastFieldID, fieldData);
-        details.element("试验数据", data);
+        details.element("试验田",fields);
         return details;
     }
 
@@ -98,18 +121,15 @@ public class QueryTool {
      * @return 所有试验的简略信息JSONArray
      * @throws SQLException PreparedStatement出错
      */
-    public JSONArray getExperiments() throws SQLException {
+    public JSONObject getExperiments() throws SQLException {
         if (experimentsStatement == null)
             experimentsStatement = dataConnection.sqlConnection.prepareStatement(
                     "SELECT ID, 创建时间, 试验名称, 试验数据格式, 试验描述, 已结束 FROM 试验 ORDER BY 创建时间 DESC"
             );
         ResultSet experiment = experimentsStatement.executeQuery();
-        JSONArray experiments = new JSONArray();
-        while (experiment.next()) {
-            JSONObject data = getExperimentInfo(experiment);
-            data.element("ID", experiment.getInt("ID"));
-            experiments.element(data);
-        }
+        JSONObject experiments = new JSONObject();
+        while (experiment.next())
+            experiments.element(experiment.getString("ID"), getExperimentInfo(experiment));
         return experiments;
     }
 
@@ -125,20 +145,19 @@ public class QueryTool {
      * @return 所有试验田的简略信息JSONArray
      * @throws SQLException PreparedStatement出错
      */
-    public JSONArray getFields() throws SQLException {
+    public JSONObject getFields() throws SQLException {
         if (fieldsStatement == null)
             fieldsStatement = dataConnection.sqlConnection.prepareStatement(
                     "SELECT ID, 创建时间, 试验田名称, 试验田描述 FROM 试验田 ORDER BY 创建时间 DESC"
             );
         ResultSet field = fieldsStatement.executeQuery();
-        JSONArray fields = new JSONArray();
+        JSONObject fields = new JSONObject();
         while (field.next()) {
             JSONObject data = new JSONObject();
-            data.element("ID", field.getInt("ID"));
             data.element("创建时间", field.getString("创建时间"));
             data.element("试验田名称", field.getString("试验田名称"));
             data.element("试验田描述", field.getString("试验田描述"));
-            fields.element(data);
+            fields.element(field.getString("ID"), data);
         }
         return fields;
     }

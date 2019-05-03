@@ -1,14 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="ExpertField.util.QueryTool" %>
-<%@ page import="java.sql.SQLException" %>
-<%
-    String data = "error";
-    try {
-        QueryTool queryTool = new QueryTool();
-        data = queryTool.getExperiments().toString();
-    } catch (SQLException | ClassNotFoundException ignored) {
-    }
-%>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
@@ -31,27 +20,27 @@
         <th>试验描述</th>
         <th>查看</th>
     </tr>
-    <tr v-for="(field,ID) in fields" style="cursor: pointer">
+    <tr v-for="field in fields" style="cursor: pointer">
         <td>{{ field.试验名称 }}</td>
         <td>{{ field.创建时间 }}</td>
         <td>{{ field.试验描述 }}</td>
-        <td><a :href="viewLink({ ID })"><img src="img/chakan.svg"></a></td>
+        <td><a :href="viewLink({ field })"></a></td>
     </tr>
 </table>
 
 </body>
+<script src="testExperimentsData.js"></script>
 <script>
-    let data =<%= data %>;
     let vue = new Vue({
         el: "#fields",
         data: {
-            fields: data
-        },
+        fields: data
+    },
         methods: {
-            viewLink: function (ID) {
-                return "Experiment.jsp?ID=" + ID.ID;
-            }
-        }
+        viewLink: function (field) {
+        return "Experiment.jsp?ID=" + field.field.ID;
+    }
+    }
     });
 </script>
 </html>

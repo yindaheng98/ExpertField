@@ -15,7 +15,7 @@ public class UpdateTool {
     public void updateField(int ID, String name, String description) throws SQLException {
         if (updateFieldStatement == null)
             updateFieldStatement = dataConnection.sqlConnection.prepareStatement(
-                    "UPDATE 试验田 SET 试验田名称=?, 试验田描述=? WHERE ID=?"
+                    "UPDATE 试验田 SET 试验田名称=IFNULL(?,试验田名称), 试验田描述=IFNULL(?,试验田描述) WHERE ID=?"
             );
         updateFieldStatement.setString(1, name);
         updateFieldStatement.setString(2, description);
@@ -28,7 +28,7 @@ public class UpdateTool {
     public void updateExperiment(int ID, String name, String description, String format) throws SQLException {
         if (updateExperimentStatement == null)
             updateExperimentStatement = dataConnection.sqlConnection.prepareStatement(
-                    "UPDATE 试验 SET 试验名称=?, 试验描述=?, 试验数据格式=? WHERE ID=?"
+                    "UPDATE 试验 SET 试验名称=IFNULL(?,试验名称), 试验描述=IFNULL(?,试验描述), 试验数据格式=IFNULL(?,试验数据格式) WHERE ID=?"
             );
         updateExperimentStatement.setString(1, name);
         updateExperimentStatement.setString(2, description);
