@@ -15,6 +15,7 @@
     <title>试验汇总</title>
     <script src="js/lib/vue.js"></script>
     <script src="js/lib/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="http://i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css">
 </head>
 <body>
 <form>
