@@ -13,109 +13,161 @@
 <head>
     <meta charset="UTF-8">
     <title>试验田汇总</title>
-    <script src="https://vuejs.org/js/vue.js"></script>
+    <link rel="stylesheet" href="css/main.css"/>
+    <script src="js/lib/vue.js"></script>
+    <script src="js/lib/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="http://i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css">
+    <script src="js/lib/qrcode.js"></script>
+    <script src="js/lib/qrcode_SJIS.js"></script>
+    <script src="js/lib/canvg.js"></script>
+    <link rel="stylesheet" href="css/ListPage.css">
 </head>
 <body>
-<form action="Field/new">
-    <label>试验田名称</label>
-    <input type="text" placeholder="名称" name="name">
-    <label>试验田描述</label>
-    <textarea placeholder="描述" name="description"></textarea>
-    <input type="submit" value="新建">
-</form>
-<table id="fields">
-    <tr>
-        <th>试验田名称</th>
-        <th>创建时间</th>
-        <th>试验田描述</th>
-        <th>编辑</th>
-        <th>二维码</th>
-    </tr>
-    <tr v-for="(field,ID) in fields">
-        <td>{{ field.试验田名称 }}</td>
-        <td>{{ field.创建时间 }}</td>
-        <td>{{ field.试验田描述 }}</td>
-        <td style="cursor:pointer" :onclick="show_edit({ ID },{ field })">
-            <img src="img/edit.svg" alt="编辑试验田">
-        </td>
-        <td style="cursor:pointer" :onclick="create_qrcode({ ID },{ field })">
-            <img src="img/erweima.svg" alt="查看二维码">
-        </td>
-    </tr>
-</table>
+<h3 style="font-size:20px; text-align:center; font-weight:bold;">新建试验田</h3>
+<br/><br/>
+<div class="content">
+    <div class="register-box">
+        <div class="wrap">
+            <div class="register-box-con2">
+                <div class="register-box-con2-box clearfix mar-bottom20">
+                    <label class="register-box-con2-box-left">试验田名称</label>
+                    <div class="register-box-con2-box-right">
+                        <input type="text" class="login-box-cen-form-input w358" id="新试验田名称"
+                               placeholder="请填写试验田名称"/>
+                    </div>
+                </div>
 
-<div class="ui-dialog ui-dialog-operate" id="qrcanvas">
+                <div class="register-box-con2-box clearfix mar-bottom20">
+                    <label class="register-box-con2-box-left">试验田描述</label>
+                    <div class="register-box-con2-box-right">
+                                <textarea class="login-box-cen-form-textarea w358 h88" id="新试验田描述"
+                                          placeholder="请填写试验田描述"></textarea>
+                    </div>
+                </div>
+
+                <div class="register-box-con2-box clearfix mar-bottom20 mar-top50">
+                    <label class="register-box-con2-box-left"></label>
+                    <div class="register-box-con2-box-right">
+                        <button class="login-box-cen-form-button w380" onclick="newField()">新建</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<br/><br/>
+
+<div class="main">
+    <h2>全部试验田</h2>
+    <table class="table-integral" id="fields">
+        <thead>
+        <tr>
+            <td style="width:250px;">试验田名称</td>
+            <td style="width:250px;">创建时间</td>
+            <td style="width:450px;">试验田描述</td>
+            <td style="width:150px;">编辑</td>
+            <td style="width:150px;">二维码</td>
+        </tr>
+        </thead>
+
+        <tbody id="content_page">
+        <tr v-for="(field,ID) in fields">
+            <td>{{ field.试验田名称 }}</td>
+            <td>{{ field.创建时间 }}</td>
+            <td>{{ field.试验田描述 }}</td>
+            <td style="cursor:pointer" :onclick="show_edit({ ID },{ field })">
+                <img src="img/edit.svg" alt="编辑试验田">
+            </td>
+            <td style="cursor:pointer" :onclick="create_qrcode({ ID },{ field })">
+                <img src="img/erweima.svg" alt="查看二维码">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div id="wrap" class="page_btn clear"></div>
+</div>
+<div id="info_modal" class="tips_info"></div>
+
+<div class="ui-dialog ui-dialog-operate" id="QR码窗口">
     <div class="ui-dialog-cnt">
+        <div class="ui-dialog-hd" id="QR码标题"></div>
         <div class="ui-dialog-hd">
-            <div class="ui-img" id="qr">
+            <div class="ui-img" id="QR码img">
                 <span>加载失败</span>
             </div>
         </div>
-        <div class="ui-dialog-bd" id="qrcontents"></div>
         <div class="ui-dialog-ft">
             <button class="ui-btn-lg" onclick="save_qrcode()">立即保存</button>
         </div>
         <i class="ui-dialog-close" data-role="button"
-           onclick="document.getElementById('qrcanvas').classList.remove('show')"></i>
+           onclick="document.getElementById('QR码窗口').classList.remove('show')"></i>
     </div>
 </div>
 
-<div class="ui-dialog ui-dialog-operate" id="edit-field">
+<div class="ui-dialog ui-dialog-operate" id="编辑试验田描述div">
     <div class="ui-dialog-cnt">
+        <div class="ui-list-info ui-border-t">
+            <h4>{{ name }}</h4>
+            <p>编辑试验田描述：</p>
+        </div>
         <div class="ui-form ui-border-t">
-            <form action="">
-                <div class="ui-form-item ui-border-b">
-                    <textarea placeholder="试验田描述" id="edit-description"></textarea>
-                </div>
-                <div class="ui-btn-wrap">
-                    <button class="ui-btn-lg ui-btn-primary">确定</button>
-                </div>
-            </form>
+            <div class="ui-form-item ui-border-b">
+                <textarea placeholder="试验田描述" id="编辑试验田描述textarea"></textarea>
+            </div>
+            <div class="ui-btn-wrap">
+                <button class="ui-btn-lg ui-btn-primary" :onclick="edit_description({ ID })">确定</button>
+            </div>
         </div>
         <i class="ui-dialog-close" data-role="button"
-           onclick="document.getElementById('edit-field').classList.remove('show')"></i>
+           onclick="document.getElementById('编辑试验田描述div').classList.remove('show')"></i>
+    </div>
+</div>
+
+<div class="ui-loading-block" id="加载中">
+    <div class="ui-loading-cnt">
+        <i class="ui-loading-bright"></i>
+        <p>正在加载中...</p>
     </div>
 </div>
 
 </body>
+<script src="js/Fields.js"></script>
 <script>
-    let data =<%= data %>;
+    let data_set =<%= data %>;
     let vue = new Vue({
         el: "#fields",
         data: {
-            fields: data
+            fields: data_set
         },
         methods: {
-            create_qrcode: function (ID,field) {//默认模式生成字符，最高容错率
+            create_qrcode: function (ID, field) {//默认模式生成字符，最高容错率
                 field = field.field;
                 let text = JSON.stringify({ID: ID.ID, 试验田名称: field.试验田名称, 创建时间: field.创建时间});
                 return "create_qrcode('" + text + "')"
             },
-            show_edit: function (ID,field) {
+            show_edit: function (ID, field) {
                 field = field.field;
-                return "show_edit(" + ID.ID+','+field.试验田描述 + ")";
+                let fstr = "$('#编辑试验田描述textarea').val('" + field.试验田描述 + "');";
+                fstr += "document.getElementById('编辑试验田描述div').classList.add('show');";
+                fstr += "selected.ID=" + ID.ID + ";";
+                fstr += "selected.name='" + field.试验田名称 + "';";
+                return fstr;
             }
         }
     });
 
-    function create_qrcode(text) {
-        qrcode.stringToBytes = qrcode.stringToBytesFuncs['default'];
-        var qr = qrcode("0", 'H');//"0"表示自动判断要生成的QRCode的大小
-        qr.addData(text, 'Byte');
-        qr.make();
-        document.getElementById('qrcanvas').classList.add("show");
-        document.getElementById('qr').innerHTML = qr.createSvgTag();
-        document.getElementById('qrcontents').innerText = text;
-    }
+    let selected = {ID: 0, name: ''};
+    let vue2 = new Vue({
+        el: '#编辑试验田描述div',
+        data: selected,
+        methods: {
+            edit_description: function (ID) {
+                return "edit_description(" + ID.ID + ")"
+            }
+        }
+    });
 
-    function save_qrcode() {
-
-    }
-
-    function show_edit(field) {
-        document.getElementById('edit-description').innerHTML = field.试验田描述;
-        document.getElementById('edit-field').classList.add('show');
-    }
 </script>
+<script src="js/MultiTable.js"></script>
 </html>
