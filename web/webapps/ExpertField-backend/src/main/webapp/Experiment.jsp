@@ -3,11 +3,13 @@
 <%@ page import="java.sql.SQLException" %>
 <%
     String data = "error";
+    String fields = "error";
     int ID = 0;
     try {
         QueryTool queryTool = new QueryTool();
         ID = Integer.parseInt(request.getParameter("ID"));
         data = queryTool.getExperimentDetails(ID).toString();
+        fields = queryTool.getFields().toString();
     } catch (SQLException | ClassNotFoundException ignored) {
     }
 %>
@@ -77,13 +79,34 @@
             </tr>
         </table>
     </div>
+
+    <h1>各试验田数据汇总</h1>
+    <span id="编辑试验田"
+          onclick="$('#编辑试验田').hide();$('#取消编辑试验田').show();$('#新增试验田').slideDown('fast');$('.删除试验田').show();">
+            <img src="img/edit.svg" alt="编辑试验田">
+        </span>
+    <span id="取消编辑试验田" style="display: none;"
+          onclick="$('#编辑试验田').show();$('#取消编辑试验田').hide();$('#新增试验田').slideUp('fast');$('.删除试验田').hide();">
+            <img src="img/cancel.svg" alt="取消编辑试验田">
+        </span>
+    <div id="新增试验田">
+        <select id="选择新增试验田">
+            <option v-for="(试验田,试验田ID) in 所有试验田" :value="试验田ID">{{ 试验田.试验田名称 }}</option>
+        </select>
+        <button onclick="add_field(<%=ID%>)">添加试验田</button>
+    </div>
     <div v-for="(试验田详情,试验田ID) in 试验田">
-        <h1>试验田-{{ 试验田ID }}:{{ 试验田详情.试验田名称 }}</h1>
+        <h1>
+            试验田-{{ 试验田ID }}:{{ 试验田详情.试验田名称 }}
+            <img src="img/shanchu.svg" alt="删除试验田" :onclick="delete_field({ 试验田ID })" class="删除试验田"
+                 style="display: none">
+        </h1>
         <table>
             <tr>
                 <th>录入时间</th>
                 <th>数据</th>
                 <th>语音</th>
+                <th class="删除试验田数据" style="display: none">删除</th>
             </tr>
             <tr v-for="(试验数据,试验数据ID) in 试验田详情.试验田数据">
                 <td>{{ 试验数据.录入时间 }}</td>
@@ -99,6 +122,9 @@
                     <div v-for="(语音链接) in 试验数据.语音">
                         <audio :src="语音链接" preload="auto"></audio>
                     </div>
+                </td>
+                <td class="删除试验田数据" style="display: none">
+                    <img src="img/shanchu.svg" alt="点击删除" :onclick="delete_data({ 试验数据ID },{试验田ID})">
                 </td>
             </tr>
         </table>
@@ -130,6 +156,7 @@
 </body>
 <script>
     let data_set =<%= data %>;
+    data_set.所有试验田 =<%=fields%>;
     let vue = new Vue({
         el: "#main",
         data: data_set,
@@ -140,11 +167,16 @@
                 return fstr;
             },
             delete_format: function (name) {
-                let fstr = "deleteFormat(<%= ID %>,'" + name + "')";
-                return fstr;
+                return "deleteFormat(<%= ID %>,'" + name + "')";
+            },
+            delete_data: function (dataID, fieldID) {
+                return "deleteData(" + dataID.试验数据ID + ',' + fieldID.试验田ID + ")";
+            },
+            delete_field: function (fieldID) {
+                return "delete_field(<%=ID%>,'" + fieldID.试验田ID + "')";
             }
         }
     });
 </script>
-<script src="js/Experiment/edit_info.js"></script>
+<script src="js/EditExperiment.js"></script>
 </html>

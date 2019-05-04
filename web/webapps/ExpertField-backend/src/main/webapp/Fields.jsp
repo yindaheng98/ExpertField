@@ -14,18 +14,22 @@
     <meta charset="UTF-8">
     <title>试验田汇总</title>
     <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="css/ListPage.css">
     <script src="js/lib/vue.js"></script>
     <script src="js/lib/jquery-3.3.1.min.js"></script>
+    <script src="js/lib/jQueryRotate.js"></script>
     <link rel="stylesheet" href="http://i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css">
     <script src="js/lib/qrcode.js"></script>
     <script src="js/lib/qrcode_SJIS.js"></script>
     <script src="js/lib/canvg.js"></script>
-    <link rel="stylesheet" href="css/ListPage.css">
 </head>
 <body>
-<h3 style="font-size:20px; text-align:center; font-weight:bold;">新建试验田</h3>
-<br/><br/>
-<div class="content">
+<h3 style="font-size:20px; text-align:center; font-weight:bold;">
+    新建试验田
+    <img src="img/xinjian.svg" alt="新建" id="打开新建表单">
+</h3>
+<div class="content" id="新建表单" style="display: none">
+    <br/><br/>
     <div class="register-box">
         <div class="wrap">
             <div class="register-box-con2">
@@ -51,7 +55,6 @@
                         <button class="login-box-cen-form-button w380" onclick="newField()">新建</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@ function Pagination($content, $wrap, options) {
     this.options = $.extend({}, Pagination.defaultOptions, options);
     this.init();
 }
+
 Pagination.defaultOptions = {
     size: 10
 };
@@ -56,7 +57,7 @@ Pagination.prototype.goTo = function (num) {
     if (typeof num !== 'number') {
         throw new Error('e');
     }
-    if(num > this.totalPageNum || num <= 0) {
+    if (num > this.totalPageNum || num <= 0) {
         return false;
     }
 
@@ -78,3 +79,17 @@ Pagination.prototype.goTo = function (num) {
 };
 
 var pagi = new Pagination($('#content_page'), $('#wrap'));
+
+$('#打开新建表单').rotate({
+    bind: {
+        click: function () {
+            $(this).rotate({
+                angle: 0,
+                animateTo: 180,
+                easing: $.easing.easeInOutExpo
+            });
+            $('#新建表单').slideToggle('fast');
+        }
+    }
+
+});
