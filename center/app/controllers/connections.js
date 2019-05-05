@@ -3,11 +3,11 @@ let mysql = require('mysql');
 
 function Connection() {
     this.mysql = mysql.createConnection({
-            host: '120.79.175.123',
-            user: 'db_expfield',
-            password: 'CiRaxkG28H',
+            host: 'web',
+            user: 'ExperimentData',
+            password: 'ExperimentData',
             port: '3306',
-            database: 'db_expfield'
+            database: 'ExperimentData'
         });
     this.mysql.connect();
     // this.redis = redis.createClient(6379,'redis');

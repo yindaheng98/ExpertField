@@ -7,17 +7,32 @@ services:
     links:
       - web
       - redis
-
+    volumes: 
+      - "./center/app:/home/node/app"
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        npm install -g cnpm --registry=https://registry.npm.taobao.org
+        cnpm install
+        npm start
+        
   web:
     build: ./web
+    expose: 
+     - "3306"
+     - "80"
+     - "8080"
     ports:
       - "81:80"
       - "8080:8080"
+      - "3307:3306"
     links:
       - redis
     volumes: 
       - "./Data:/var/lib/mysql"
       - "./web/app:/app"
+      - "./web/webapps:/jettybase/webapps"
 
   redis:
     image: redis

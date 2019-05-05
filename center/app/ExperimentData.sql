@@ -33,11 +33,11 @@ create table 试验数据
 ID int primary key auto_increment,
 试验_试验田ID int not null,
 录入时间 datetime not null,
-数据 json default "{}",
-语音 json default "[]",
+数据 json,
+语音 json,
 foreign key (试验_试验田ID) references 试验_试验田(ID)
 );
-drop user if exists ExperimentData@localhost;
-create user ExperimentData@localhost identified WITH mysql_native_password by 'ExperimentData' PASSWORD EXPIRE NEVER;
-grant select,update,insert,delete on ExperimentData.* to ExperimentData@localhost;
+drop user if exists ExperimentData@'%';
+create user ExperimentData@'%' identified WITH mysql_native_password by 'ExperimentData' PASSWORD EXPIRE NEVER;
+grant select,update,insert,delete on ExperimentData.* to ExperimentData@'%';
 flush privileges;

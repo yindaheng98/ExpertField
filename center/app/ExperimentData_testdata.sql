@@ -1,12 +1,12 @@
 use ExperimentData;
 insert into 试验(创建时间,试验名称,试验数据格式,试验描述)values
-(date_sub(now(),interval 2 second),"1秒前的某个实验",'{
+(date_sub(now(),interval 1 minute),"1秒前的某个实验",'{
 "天气": ["阴","晴","雨","雪"],
 "湿度": "double",
 "日照情况": "int",
 "谁写的": "string"
 }',"我是1秒前的某个实验的实验描述"),
-(date_sub(now(),interval 1 second),"1秒前的某个实验",'{
+(date_sub(now(),interval 1 hour),"1秒前的某个实验",'{
 "天气": ["阴","晴","雨","雪"],
 "湿度": "double",
 "日照情况": "int",
@@ -39,7 +39,7 @@ insert into 试验(创建时间,试验名称,试验数据格式,试验描述,已
 }',"已结束字段为true的试验不显示在填数据时的那个选择试验的界面，然后在后台管理界面显示一个‘已结束’之类的标记",true);
 
 insert into 试验田(创建时间,试验田名称,试验田描述)values
-(now()-1000,"1秒前开的某个试验田","我是1秒前开的某个试验田的描述"),
+(date_sub(now(),interval 1 second),"1秒前开的某个试验田","我是1秒前开的某个试验田的描述"),
 (date_sub(now(),interval 1 day),"昨天开的某个试验田","我是昨天开的某个试验田的描述"),
 (date_sub(now(),interval 1 month),"不知所云试验田","不知所云的试验田描述"),
 (date_sub(now(),interval 2 month),"不明所以试验田","不明所以的试验田描述"),
@@ -58,10 +58,10 @@ insert into 试验_试验田(试验ID,试验田ID)values
 (5,1),(5,2);
 
 insert into 试验数据(试验_试验田ID,录入时间,数据,语音)values
-(1,now(),'{"天气": "阴","湿度": 12.34523634645,"日照情况": 7,"谁写的": "不是我"}',null),
-(2,now(),'{"天气": "晴","湿度": 13.0592,"日照情况": 9,"谁写的": "是他"}',null),
+(1,now(),'{"天气": "阴","湿度": 12.34523634645,"日照情况": 7,"谁写的": "不是我"}','["http://kolber.github.io/audiojs/demos/mp3/juicy.mp3","http://kolber.github.io/audiojs/demos/mp3/juicy.mp3"]'),
+(2,now(),'{"天气": "晴","湿度": 13.0592,"日照情况": 9,"谁写的": "是他"}','["http://kolber.github.io/audiojs/demos/mp3/juicy.mp3"]'),
 (3,now(),'{"天气": "雨","湿度": 15.344563456,"日照情况": 14,"谁写的": "是他"}',null),
 (4,now(),'{"天气": "雪","湿度": 19.344563456,"日照情况": 19,"谁写的": "就是他"}',null),
 (19,now(),'{"温度": 12.34523634645,"一个很大的数": 10000000000000,"季节": "春","到底是谁写的": "ん？"}',null),
-(19,now(),'{"温度": 13.0592,"一个很大的数": 12000000000000,"季节": "夏","到底是谁写的": "ん？"}',null),
-(19,now(),null,'["写不动了艹，石晨希你给写个python啥的随机整点数据把"]');
+(19,now(),'{"温度": 13.0592,"一个很大的数": 12000000000000,"季节": "夏","到底是谁写的": "ん？"}','["http://kolber.github.io/audiojs/demos/mp3/juicy.mp3"]'),
+(19,now(),null,'["http://kolber.github.io/audiojs/demos/mp3/juicy.mp3"]');
