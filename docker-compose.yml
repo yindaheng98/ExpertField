@@ -3,7 +3,7 @@ services:
   center:
     build: ./center
     ports: 
-      - "80:3000"
+      - "81:3000"
     links:
       - web
       - redis
@@ -24,7 +24,7 @@ services:
      - "80"
      - "8080"
     ports:
-      - "81:80"
+      - "8888:80"
       - "8080:8080"
       - "3307:3306"
     links:
