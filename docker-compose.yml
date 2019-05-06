@@ -19,6 +19,9 @@ services:
       - "./web/proxy_conf:/proxy_conf"
 
   node:
+    restart: always
+    depends_on: 
+      - web
     build: ./node
     expose: 
      - "3000"
