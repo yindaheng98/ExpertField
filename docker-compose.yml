@@ -10,9 +10,8 @@ services:
       - "8888:80"
       - "8080:8080"
       - "3307:3306"
-    links:
-      - redis
-      - node
+    networks: 
+      - "proxy"
     volumes: 
       - "./Data:/var/lib/mysql"
       - "./web/app:/app"
@@ -20,18 +19,20 @@ services:
       - "./web/proxy_conf:/proxy_conf"
 
   node:
-    build: ./center
+    build: ./node
+    expose: 
+     - "3000"
     ports: 
       - "3000:3000"
-    links:
-      - web
-      - redis
+    networks: 
+      - "proxy"
     volumes: 
-      - "./center/app:/home/node/app"
+      - "./node/app:/home/node/app"
     command: 
       - /bin/sh
       - -c
       - |
+        echo "node启动！"
         npm install -g cnpm --registry=https://registry.npm.taobao.org
         cnpm install
         npm start
@@ -40,5 +41,11 @@ services:
     image: redis
     ports: 
       - "6379:6379"
+    networks: 
+      - "proxy"
+
+networks: 
+  proxy:
+    driver: bridge
 
 

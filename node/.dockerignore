@@ -1,0 +1,6 @@
+app/.idea/
+app/node_modules/
+app/*.sql
+app/.gitignore
+app/LICENSE
+app/README.md
