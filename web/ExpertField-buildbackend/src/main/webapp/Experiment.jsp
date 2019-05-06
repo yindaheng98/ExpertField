@@ -31,19 +31,38 @@
 </head>
 <body>
 <div id="main">
-    <h1>{{ 试验名称 }}</h1>
-    <span v-if="已结束"><img src="img/yiwancheng.svg" alt="已结束"></span>
-    <span v-else><img src="img/jinxingzhong.svg" alt="进行中"></span>
-    <p>{{ 创建时间 }}</p>
-    <div>
-        <h1>试验描述</h1>
-        <span :onclick="show_edit_description({ 试验描述 })">
-            <img src="img/edit.svg" alt="编辑试验描述">
-        </span>
-        {{ 试验描述 }}
+    <h1 align="center" style="font-size:30px; text-align:center; font-weight:bold;">{{ 试验名称 }}</h1>
+    <div align="center">
+        <span v-if="已结束"><img src="img/yiwancheng.svg" alt="已结束" style="width:200px; height:100px"></span>
+        <span v-else><img src="img/jinxingzhong.svg" alt="进行中" style="width:200px;height: 100px"></span>
+    </div>
+    <div align="center">
+        <div><p style="font-size:20px;height:auto">【创建时间】</p></div>
+        <div>{{ 创建时间 }}</div>
+    </div>
+    <div align="center">
+        <div>
+            <h1 style="font-size:20px;width:300px; height:auto">【试验描述】</h1>
+        </div>
+        <div align="center">
+            <table>
+                <tr>
+                    <th width="300px" align="center">试验描述</th>
+                    <th width="100px" align="center">修改试验描述</th>
+                </tr>
+                <tr>
+                    <td width="300px">{{ 试验描述 }}</td>
+                    <td width="100px" align="center"><span :onclick="show_edit_description({ 试验描述 })">
+            			<img src="img/edit.svg" width="50px" height="50px" align="center" alt="编辑试验描述">
+        				</span></td>
+                </tr>
+            </table>
+        </div>
     </div>
     <div>
-        <h1>试验数据格式</h1>
+        <div align="center">
+            <h1 style="font-size:20px;width:300px; height:auto"> 【试验数据格式】</h1>
+        </div>
         <span onclick="show_edit_format()" id="编辑试验数据格式">
             <img src="img/edit.svg" alt="编辑试验数据格式">
         </span>
