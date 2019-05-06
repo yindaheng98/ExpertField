@@ -24,10 +24,12 @@
     <script src="js/lib/canvg.js"></script>
 </head>
 <body>
-<h3 style="font-size:20px; text-align:center; font-weight:bold;">
-    新建试验田
-    <img src="img/xinjian.svg" alt="新建" id="打开新建表单">
-</h3>
+
+<h1 style="font-size:30px; text-align:center; font-weight:bold;">
+    新建试验田<br>
+    <img src="img/xinjian.svg" alt="新建" width="30px" height="auto"
+         id="打开新建表单" style="cursor: pointer">
+</h1>
 <div class="content" id="新建表单" style="display: none">
     <br/><br/>
     <div class="register-box">
@@ -44,8 +46,8 @@
                 <div class="register-box-con2-box clearfix mar-bottom20">
                     <label class="register-box-con2-box-left">试验田描述</label>
                     <div class="register-box-con2-box-right">
-                                <textarea class="login-box-cen-form-textarea w358 h88" id="新试验田描述"
-                                          placeholder="请填写试验田描述"></textarea>
+                                    <textarea class="login-box-cen-form-textarea w358 h88" id="新试验田描述"
+                                              placeholder="请填写试验田描述"></textarea>
                     </div>
                 </div>
 
@@ -59,10 +61,9 @@
         </div>
     </div>
 </div>
-<br/><br/>
 
 <div class="main">
-    <h2>全部试验田</h2>
+    <h1 style="font-size:30px; text-align:center; font-weight:bold;">全部试验田</h1>
     <table class="table-integral" id="fields">
         <thead>
         <tr>
@@ -80,10 +81,10 @@
             <td>{{ field.创建时间 }}</td>
             <td>{{ field.试验田描述 }}</td>
             <td style="cursor:pointer" :onclick="show_edit({ ID },{ field })">
-                <img src="img/edit.svg" alt="编辑试验田">
+                <img src="img/edit.svg" width="30px" height="auto" alt="编辑试验田">
             </td>
             <td style="cursor:pointer" :onclick="create_qrcode({ ID },{ field })">
-                <img src="img/erweima.svg" alt="查看二维码">
+                <img src="img/erweima.svg" width="30px" height="auto" alt="查看二维码">
             </td>
         </tr>
         </tbody>
@@ -111,19 +112,22 @@
 <div class="ui-dialog ui-dialog-operate" id="编辑试验田描述div">
     <div class="ui-dialog-cnt">
         <div class="ui-list-info ui-border-t">
-            <h4>{{ name }}</h4>
+            <h1 align="center">{{ name }}</h1>
             <p>编辑试验田描述：</p>
         </div>
-        <div class="ui-form ui-border-t">
-            <div class="ui-form-item ui-border-b">
-                <textarea placeholder="试验田描述" id="编辑试验田描述textarea"></textarea>
+        <div class="ui-form ui-border-b">
+
+            <div class="ui-form-item ui-border-b" align="center">
+                <textarea class="" placeholder="试验田描述" id="编辑试验田描述textarea" style="padding:0"></textarea>
             </div>
             <div class="ui-btn-wrap">
                 <button class="ui-btn-lg ui-btn-primary" :onclick="edit_description({ ID })">确定</button>
             </div>
+
         </div>
         <i class="ui-dialog-close" data-role="button"
-           onclick="document.getElementById('编辑试验田描述div').classList.remove('show')"></i>
+           onclick="document.getElementById('编辑试验田描述div').classList.remove('show')">
+        </i>
     </div>
 </div>
 

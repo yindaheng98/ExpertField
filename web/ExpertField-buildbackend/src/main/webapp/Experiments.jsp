@@ -22,10 +22,11 @@
 </head>
 <body>
 
-<h3 style="font-size:20px; text-align:center; font-weight:bold;">
-    新建试验
-    <img src="img/xinjian.svg" alt="新建" id="打开新建表单">
-</h3>
+<h1 style="font-size:30px; text-align:center; font-weight:bold;">
+    新建试验<br>
+    <img src="img/xinjian.svg" width="30px" height="auto" alt="新建" align="center"
+         id="打开新建表单" style="cursor: pointer">
+</h1>
 <div class="content" id="新建表单" style="display: none">
     <br/><br/>
     <div class="register-box">
@@ -40,8 +41,8 @@
                 <div class="register-box-con2-box clearfix mar-bottom20">
                     <label class="register-box-con2-box-left">试验描述</label>
                     <div class="register-box-con2-box-right">
-                        <textarea class="login-box-cen-form-textarea w358 h88" id="新试验描述"
-                                  placeholder="请填写试验描述"></textarea>
+                            <textarea class="login-box-cen-form-textarea w358 h88" id="新试验描述"
+                                      placeholder="请填写试验描述"></textarea>
                     </div>
                 </div>
                 <div class="register-box-con2-box clearfix mar-bottom20 mar-top50">
@@ -54,10 +55,9 @@
         </div>
     </div>
 </div>
-<br/><br/>
 
 <div class="main">
-    <h2>全部试验</h2>
+    <h1 style="font-size:30px; text-align:center; font-weight:bold;">全部试验</h1>
     <table class="table-integral" id="fields">
         <thead>
         <tr>
@@ -72,14 +72,13 @@
             <td>{{ field.试验名称 }}</td>
             <td>{{ field.创建时间 }}</td>
             <td>{{ field.试验描述 }}</td>
-            <td><a :href="viewLink({ ID })"><img src="img/chakan.svg" alt="点击查看"></a></td>
+            <td><a :href="viewLink({ ID })"><img src="img/chakan.svg" width="30px" height="auto" alt="点击查看"></a></td>
         </tr>
         </tbody>
     </table>
     <div id="wrap" class="page_btn clear"></div>
 </div>
 <div id="info_modal" class="tips_info"></div>
-
 
 <div class="ui-loading-block" id="加载中">
     <div class="ui-loading-cnt">

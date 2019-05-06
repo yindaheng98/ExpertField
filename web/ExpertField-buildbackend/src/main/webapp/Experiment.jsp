@@ -70,9 +70,7 @@
                         <option value="int">int</option>
                         <option value="float">float</option>
                         <option value="string">string</option>
-                        <option value="enum">单选列表</option>
                     </select>
-                    <input type="text" id="enum候选字段" placeholder="在此输入您的单选列表,以英文逗号分隔">
                 </td>
                 <td onclick="newFormat(<%= ID %>)">
                     <img src="img/xinzeng.svg" alt="新增">
@@ -112,35 +110,31 @@
             <tr v-for="(试验数据,试验数据ID) in 试验田详情.试验田数据">
                 <td>{{ 试验数据.录入时间 }}</td>
                 <td>
-                    <table>
-                        <tbody>
-                        <tr v-for="(值,字段名) in 试验数据.数据">
-                            <td>{{ 字段名 }}</td>
-                            <td>{{ 值 }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <img src="img/edit.svg" alt="修改数据"
-                         onclick="
-                         $(this).hide();
-                         $(this).prev().hide();
-                         $(this).next().show();
-                         $(this).next().next().show()">
-                    <table style="display: none;">
-                        <tbody>
-                        <tr v-for="(数据类型,字段名) in 试验数据格式">
-                            <td>{{ 字段名 }}</td>
-                            <td><input type="text" :value="试验数据.数据[字段名]"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <img src="img/cancel.svg" alt="取消修改数据" style="display: none;"
-                         onclick="
-                         $(this).hide();
-                         $(this).prev().hide();
-                         $(this).prev().prev().show();
-                         $(this).prev().prev().prev().show()">
-                    <button :onclick="edit_metadata({ 试验数据ID })">ok</button>
+                    <div>
+                        <table class="查看数据">
+                            <tbody>
+                            <tr v-for="(值,字段名) in 试验数据.数据">
+                                <td>{{ 字段名 }}</td>
+                                <td>{{ 值 }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <img src="img/edit.svg" alt="修改数据"
+                             onclick="$(this).parent().hide();$(this).parent().next().show();">
+                    </div>
+                    <div style="display: none;">
+                        <table class="修改数据">
+                            <tbody>
+                            <tr v-for="(数据类型,字段名) in 试验数据格式">
+                                <td>{{ 字段名 }}</td>
+                                <td><input type="text" :value="试验数据.数据[字段名]" :name="字段名"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <img src="img/cancel.svg" alt="取消修改数据"
+                             onclick="$(this).parent().hide();$(this).parent().prev().show();">
+                        <button :onclick="edit_metadata({ 试验数据ID },{ 试验田ID })">ok</button>
+                    </div>
                 </td>
                 <td>
                     <div v-for="(语音链接) in 试验数据.语音">
@@ -199,8 +193,8 @@
             delete_field: function (fieldID) {
                 return "delete_field(<%=ID%>,'" + fieldID.试验田ID + "')";
             },
-            edit_metadata: function (dataID) {
-
+            edit_metadata: function (dataID, fieldID) {
+                return "edit_metadata(" + dataID.试验数据ID + ",this," + fieldID.试验田ID + ")"
             }
         }
     });
