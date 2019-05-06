@@ -138,7 +138,7 @@
                 </td>
                 <td>
                     <div v-for="(语音链接) in 试验数据.语音">
-                        <audio :src="语音链接" preload="auto"></audio>
+                        <audio :src="语音链接" preload="metadata"></audio>
                     </div>
                 </td>
                 <td class="删除试验田数据" style="display: none">

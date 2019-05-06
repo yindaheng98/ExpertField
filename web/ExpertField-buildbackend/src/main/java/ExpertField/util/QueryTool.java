@@ -115,7 +115,7 @@ public class QueryTool {
                     fieldData = field.getJSONObject("试验田数据");
                     lastFieldID = fieldID;
                 }
-                fieldData.element(fieldID, d);
+                fieldData.element(experimentData.getString("ID"), d);
             } while (experimentData.next());
             field.element("试验田数据", fieldData);
             fields.element(lastFieldID, field);
