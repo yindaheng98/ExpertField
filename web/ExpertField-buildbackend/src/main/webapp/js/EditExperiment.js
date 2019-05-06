@@ -83,9 +83,10 @@ function add_field(ID) {
             let field = JSON.parse(JSON.stringify(data_set.所有试验田[fieldID]));
             field.试验数据 = {};
             data_set.试验田[fieldID] = field;
+            window.location.reload();
         } else
             alert("添加失败");
-    })
+    });
 }
 
 function deleteData(dataID, fieldID) {

@@ -108,15 +108,14 @@ public class QueryTool {
                 d.element("语音", soundData != null ? JSONArray.fromObject(soundData) : new JSONArray());
 
                 String fieldID = experimentData.getString("试验田ID");
-                if (fieldID.equals(lastFieldID))
-                    fieldData.element(fieldID, d);
-                else {
+                if (!fieldID.equals(lastFieldID)) {
                     field.element("试验田数据", fieldData);
                     fields.element(lastFieldID, field);
                     field = fields.getJSONObject(fieldID);
                     fieldData = field.getJSONObject("试验田数据");
                     lastFieldID = fieldID;
                 }
+                fieldData.element(fieldID, d);
             } while (experimentData.next());
             field.element("试验田数据", fieldData);
             fields.element(lastFieldID, field);
