@@ -40,9 +40,11 @@ services:
       - "proxy"
 
   ftp:
+    restart: always
     image: stilliard/pure-ftpd:hardened
     environment:
       FTP_USER_HOME: /home/Data
+      PUBLICHOST: "localhost"
     ports:
      - "21:21"
      - "30000-30009:30000-30009"
