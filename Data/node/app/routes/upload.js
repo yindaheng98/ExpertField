@@ -26,6 +26,7 @@ const storage = multer.diskStorage({
             if (typeof req.new_filename === 'undefined') req.new_filename = [];
             req.new_filename.push(newFilename);
             console.log("filename: " + req.new_filename);
+            newFilename = "api/uploads/"+newFilename;
             cb(null, newFilename);
         });
     }
