@@ -26,7 +26,7 @@ const storage = multer.diskStorage({
             if (typeof req.new_filename === 'undefined') req.new_filename = [];
             req.new_filename.push(newFilename);
             console.log("filename: " + req.new_filename);
-            newFilename = "api/uploads/"+newFilename;
+            // newFilename = "api/uploads/"+newFilename;
             cb(null, newFilename);
         });
     }
@@ -55,7 +55,9 @@ function execute_sql(id, time, data, voices) {
 app.post('/', function (req, res, next) {
     upload(req, res, err => {
         if (!err) {
-            execute_sql(req.body.exp_field_id, req.body.time, req.body.data, req.new_filename || []).then(
+            new_filenames = req.new_filename || [];
+            new_filenames = new_filenames.map(f=>"api/uploads/"+f);
+            execute_sql(req.body.exp_field_id, req.body.time, req.body.data, new_filenames).then(
                 () => {
                     res.json({msg: 'ok'});
                 },
