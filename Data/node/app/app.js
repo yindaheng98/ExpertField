@@ -21,7 +21,7 @@ app.use('/getFieldInfo', require('./routes/fieldInfo'));
 app.use('/index', require('./routes/index'));
 app.use('/upload', require('./routes/upload'));
 
-app.static("uploads");
+app.use(express.static(path.join(__dirname, 'uploads')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
