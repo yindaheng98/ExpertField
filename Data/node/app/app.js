@@ -20,7 +20,8 @@ app.use('/getExpertInfo', require('./routes/expertInfo'));
 app.use('/getFieldInfo', require('./routes/fieldInfo'));
 app.use('/index', require('./routes/index'));
 app.use('/upload', require('./routes/upload'));
-app.use('/', require('./routes/toOtherServers/other'));//前面没有匹配到的全部仍这里
+
+app.static("uploads");
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
