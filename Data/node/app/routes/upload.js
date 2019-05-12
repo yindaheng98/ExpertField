@@ -56,7 +56,7 @@ app.post('/', function (req, res, next) {
     upload(req, res, err => {
         if (!err) {
             new_filenames = req.new_filename || [];
-            new_filenames = new_filenames.map(f=>"api/uploads/"+f);
+            //new_filenames = new_filenames.map(f=>"api/uploads/"+f);
             execute_sql(req.body.exp_field_id, req.body.time, req.body.data, new_filenames).then(
                 () => {
                     res.json({msg: 'ok'});
