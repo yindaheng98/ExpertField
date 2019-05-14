@@ -52,6 +52,11 @@ services:
       - "./Data:/home/Data"
       - "./ftp-passwd:/etc/pure-ftpd/passwd"
 
+  java:
+    build: ./java
+    ports:
+      - "8081:8080"
+
 networks: 
   proxy:
     driver: bridge
