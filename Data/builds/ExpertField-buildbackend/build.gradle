@@ -1,12 +1,16 @@
 plugins {
     id 'java'
-    id 'war'
     id 'idea'
 }
 apply from: 'gretty.plugin'
 
+apply plugin: 'war'
+
+war {
+    archiveName 'ExpertField.war'
+}
+
 group 'com.ExpertField'
-version '1.0'
 
 sourceCompatibility = 1.8
 
@@ -25,4 +29,8 @@ dependencies {
 
 tasks.withType(JavaCompile){
     options.encoding = "UTF-8"
+}
+
+task doPack(type: War, dependsOn: []) {
+    archiveName "ROOT.war"
 }
