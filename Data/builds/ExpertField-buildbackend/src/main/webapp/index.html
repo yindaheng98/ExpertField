@@ -16,8 +16,21 @@
         .btn {
             width: 200px;
             height: 200px;
-            filter:alpha(Opacity=90);
-            -moz-opacity:0.9;
+            filter: alpha(Opacity=90);
+            -moz-opacity: 0.9;
+            opacity: 0.9;
+        }
+
+        .bbtn {
+            left: 0;
+            right: 0;
+            bottom: 20px;
+            position: absolute;
+            text-align: center;
+            align-self: flex-end;
+            font-size: 24px;
+            filter: alpha(Opacity=90);
+            -moz-opacity: 0.9;
             opacity: 0.9;
         }
     </style>
@@ -34,5 +47,8 @@
         <button class="ui-btn">数据汇总页</button>
     </a>
 </div>
+<a class="bbtn" href="ExpField.apk">
+    <button class="ui-btn" style="height: auto;width: 200px">下载APP</button>
+</a>
 </body>
 </html>
