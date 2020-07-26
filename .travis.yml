@@ -7,12 +7,10 @@ branches:
     - master
 script:
   - cd ./Data/builds/ExpertField-buildbackend
-  - chmod +x gradlew
-  - ./gradlew war
-  - ls ./build/libs
+  - chmod +x gradlew && ./gradlew war && ls ./build/libs
   - git clone https://$GH_TOKEN@github.com/yindaheng98/yindaheng98.top.git
-  - cp -rf ./build/libs/* ./yindaheng98.top/apps/jetty/
-  - ls ./yindaheng98.top/apps/jetty/
+  - cp -rf ./build/libs/* ./yindaheng98.top/apps/jetty/ && ls ./yindaheng98.top/apps/jetty
+  - rm -rf ./yindaheng98.top/apps/node/ExpertField && cp -rf ./Data/node/app ./yindaheng98.top/apps/node/ExpertField
   - cd ./yindaheng98.top
   - git add -A
   - git commit -m 'TravisCI Deployed ExpertField'
