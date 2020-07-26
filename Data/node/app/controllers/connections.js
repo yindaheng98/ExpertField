@@ -3,7 +3,7 @@ let mysql = require('mysql');
 
 function Connection() {
     this.mysql = mysql.createConnection({
-            host: 'web',
+            host: 'mysql',
             user: 'ExperimentData',
             password: 'ExperimentData',
             port: '3306',
