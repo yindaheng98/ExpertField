@@ -10,6 +10,9 @@ script:
   - chmod +x gradlew && ./gradlew war && ls ./build/libs
   - git clone https://$GH_TOKEN@github.com/yindaheng98/yindaheng98.top.git
   - cp -rf ./build/libs/* ./yindaheng98.top/apps/jetty/ && ls ./yindaheng98.top/apps/jetty
+  - ls ./yindaheng98.top/apps/node/ExpertField
+  - ls ./yindaheng98.top/apps/node
+  - ls ./yindaheng98.top/apps
   - rm -rf ./yindaheng98.top/apps/node/ExpertField && mv ../../../Data/node/app ./yindaheng98.top/apps/node/ExpertField
   - cd ./yindaheng98.top
   - git add -A
