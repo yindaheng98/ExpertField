@@ -2,9 +2,9 @@
 <head>
     <meta charset="UTF-8">
     <title>ExpertField</title>
-    <link rel="stylesheet" href="database/css/main.css"/>
-    <link rel="stylesheet" href="database/css/ListPage.css"/>
-    <script src="database/js/lib/jQueryRotate.js"></script>
+    <link rel="stylesheet" href="ExpertField/css/main.css"/>
+    <link rel="stylesheet" href="ExpertField/css/ListPage.css"/>
+    <script src="ExpertField/js/lib/jQueryRotate.js"></script>
     <link rel="stylesheet" href="http://i.gtimg.cn/vipstyle/frozenui/2.0.0/css/frozen.css">
     <style>
         .ui-btn {
@@ -16,23 +16,39 @@
         .btn {
             width: 200px;
             height: 200px;
-            filter:alpha(Opacity=90);
-            -moz-opacity:0.9;
+            filter: alpha(Opacity=90);
+            -moz-opacity: 0.9;
+            opacity: 0.9;
+        }
+
+        .bbtn {
+            left: 0;
+            right: 0;
+            bottom: 20px;
+            position: absolute;
+            text-align: center;
+            align-self: flex-end;
+            font-size: 24px;
+            filter: alpha(Opacity=90);
+            -moz-opacity: 0.9;
             opacity: 0.9;
         }
     </style>
 </head>
 <body style="display: flex">
 <div style="margin: 0 auto;width: 609px;align-self: center">
-    <a href="database/Fields.jsp" class="btn">
+    <a href="ExpertField/Fields.jsp" class="btn">
         <button class="ui-btn">试验田管理页</button>
     </a>
-    <a href="database/Experiments.jsp" class="btn">
+    <a href="ExpertField/Experiments.jsp" class="btn">
         <button class="ui-btn">试验管理页</button>
     </a>
-    <a href="http://yindaheng98.top:8081/main" class="btn">
+    <a href="caomei/page/main" class="btn">
         <button class="ui-btn">数据汇总页</button>
     </a>
 </div>
+<a class="bbtn" href="ExpertField/ExpField.apk">
+    <button class="ui-btn" style="height: auto;width: 200px">下载APP</button>
+</a>
 </body>
 </html>

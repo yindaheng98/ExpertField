@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: expert-field-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: expert-field
+  template:
+    metadata:
+      name: expert-field-pod
+      labels:
+        app: expert-field
+    spec:
+      containers:
+        - name: expert-field-homepage-container
+          image: yindaheng98/expert-field-homepage
+          ports:
+            - containerPort: 80
+        - name: expert-field-android-backend-container
+          image: yindaheng98/expert-field-android-backend
+          ports:
+            - containerPort: 3000
+        - name: expert-field-caomei-container
+          image: yindaheng98/expert-field-android-backend
+          ports:
+            - containerPort: 8080
+        - name: expert-field-admin-container
+          image: yindaheng98/expert-field-admin
+          ports:
+            - containerPort: 8081
+          command:
+            - "java"
+            - "-jar"
+            - "/usr/local/jetty/start.jar"
+            - "--module=http jetty.port=8081"
