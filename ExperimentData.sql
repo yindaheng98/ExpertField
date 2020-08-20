@@ -1,3 +1,4 @@
+set names utf8;
 drop database if exists ExperimentData;
 create database ExperimentData DEFAULT CHARACTER SET utf8;
 use ExperimentData;
