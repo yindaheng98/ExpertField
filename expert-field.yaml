@@ -34,4 +34,5 @@ spec:
           args:
             - "-jar"
             - "/usr/local/jetty/start.jar"
-            - "--module=http jetty.port=8081"
+            - "--module=http"
+            - "jetty.port=8081"
