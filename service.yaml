@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: expert-field-android-backend
+spec:
+  type: NodePort
+  selector:
+    app: expert-field
+  ports:
+    - name: expert-field-android-backend
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: expert-field-admin
+spec:
+  selector:
+    app: expert-field
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-expert-field
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - host: expert-field.yindaheng98.top
+      http:
+        paths:
+          - path: /()(.*)
+            backend:
+              serviceName: expert-field-admin
+              servicePort: 80

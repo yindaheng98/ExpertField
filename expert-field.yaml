@@ -23,15 +23,15 @@ spec:
           ports:
             - containerPort: 3000
         - name: expert-field-caomei-container
-          image: yindaheng98/expert-field-android-backend
+          image: yindaheng98/expert-field-caomei
           ports:
             - containerPort: 8080
         - name: expert-field-admin-container
           image: yindaheng98/expert-field-admin
           ports:
             - containerPort: 8081
-          command:
-            - "java"
+          command: ["java"]
+          args:
             - "-jar"
             - "/usr/local/jetty/start.jar"
             - "--module=http jetty.port=8081"
